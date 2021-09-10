@@ -32,7 +32,11 @@ Route::post('/login', [App\Http\Controllers\LoginController::class, 'login'])->n
 Route::post('/registro_post', [App\Http\Controllers\LoginController::class, 'validar_registro'])->name('registro_post');
 Route::post('/registro_newpost', [App\Http\Controllers\LoginController::class, 'registro'])->name('registro_newpost');
 
+Route::post('/registro_post', [App\Http\Controllers\LoginController::class, 'validar_registro'])->name('registro_post');
+Route::post('/registro_newpost', [App\Http\Controllers\LoginController::class, 'registro'])->name('registro_newpost');
+
 
 Route::group(['middleware' => 'session'], function () {
     Route::get('/registro_empaques', [App\Http\Controllers\RegistroEmpaquesController::class, 'index'])->name('registro_empaques');
+    Route::post('/registro_post_emp', [App\Http\Controllers\RegistroEmpaquesController::class, 'registro_empa'])->name('registro_empa');
 });

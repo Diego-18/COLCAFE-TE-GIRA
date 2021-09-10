@@ -17,6 +17,7 @@ class SessionMiddleware
     public function handle(Request $request, Closure $next)
     {
         $session = session('session_usuario_id');
+        
         if ($session) {
             return $next($request);
         }else{

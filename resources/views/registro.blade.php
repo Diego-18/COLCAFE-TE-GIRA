@@ -39,13 +39,17 @@
                             <div class="form-group row">
                                 <label  class="col-md-4 col-form-label text-md-right" >Departamento</label>
                                 <div class="col-md-6">
-                                    <input type="text" id="departamento" class="form-control"    value="Antioquia" >
+                                    <select id="departamento" class="form-control">
+                                        <option>Seleccione una opción*</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label  class="col-md-4 col-form-label text-md-right" >Ciudad</label>
                                 <div class="col-md-6">
-                                    <input type="text" id="ciudad" class="form-control"  value="Medellin"  >
+                                    <select id="ciudad" class="form-control">
+                                        <option>Seleccione una opción*</option>
+                                    </select>
                                 </div>
                             </div>
                             
@@ -93,6 +97,7 @@
         </div>
     </div>
     </div>
+    @include('mecanica')
     @include('login')
     @include('footer')
     @include('validaciones')

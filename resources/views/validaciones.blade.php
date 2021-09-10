@@ -1,4 +1,9 @@
 <script>
+       $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     const Toast = Swal.mixin({
         showConfirmButton: true,
         showCancelButton: false,
@@ -13,11 +18,7 @@
         }
     });
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+
     //LOGIN
     $("#validar_cc").click(function() {
         var val = $("#cc_ingreso").val();
@@ -48,7 +49,7 @@
                         console.log(response.valid)
                         if (response.valid == 1) {
                             // console.log(response.id)
-                                window.location.href = "{{ route('registro_empaques') }}";    
+                            window.location.href = "{{ route('registro_empaques') }}";
                         } else if (response.valid == 0) {
                             // en caso de que no exita 
                             preguntar_login(val);
@@ -77,7 +78,7 @@
         location.href = "{{ url('registro') }}" + "/" + cc;
     }
 
-    //REGISTRO
+    //REGISTRO de persona
     $("#registro_pers").click(function() {
 
         var tipo_documento = $("#tipo_documento").val();
@@ -178,11 +179,7 @@
         }
     });
 
-
-
     //ABRIR MODAL CÓDIGOS
-  
-
     function registrar_usuario(data) {
 
         if (!data.tel_adic) {
@@ -264,4 +261,72 @@
             }
         });
     }
+
+    $("#registro_emp").click(function() {
+            var gramaje = $("#gramaje").val();
+            var producto = $("#producto").val();
+            var gramos = $("#gramos").val();
+
+   
+        if (gramaje === "" || producto ==="" || gramos === "") {
+            $("#alert_error_registro").modal("show");
+        } else {
+
+            $(this).prop('disabled', true);
+            // var tp = $("#tipo_documento option:selected").text();
+            // var dp = $("#departamento option:selected").text();
+            // var cd = $("#ciudad option:selected").text();
+
+            $.ajax({
+                url: "{{ route('registro_empa') }}",
+                dataType: "json",
+                type: "POST",
+                data: {
+                    gramaje: gramaje,
+                    producto: producto,
+                    gramos: gramos,
+
+                },
+                success: function(response) {
+                    if (response.result == true) {
+                        info_empaque = response.data_empaque;
+                            Swal.fire({
+                                icon: 'success',
+                                background: "#c8a767",
+                                iconColor: '#1c4d0c',
+                                showCancelButton: false,
+                                html: `<span class='mu5 alert-error'>Registrado correctamente</span>`,
+                                confirmButtonColor: '#432c1d',
+                                cancelButtonColor: '#a01822',
+                                confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
+                                allowOutsideClick: false,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    console.log("hasta aqui llegue")
+                                }
+                            });
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: '<span class="mu7 alert-error">' + response.data +
+                                '</span>',
+                        });
+                        $("#registro_emp").prop('disabled', false);
+                    }
+                },
+                error: function(response) {
+                    console.log("algo anda mal")
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
+                    });
+                    $("#registro_emp").prop('disabled', false);
+                }
+            });
+        }
+    });
+
+
+
+  
 </script>

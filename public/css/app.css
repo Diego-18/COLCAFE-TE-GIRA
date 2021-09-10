@@ -2,3 +2,52 @@ body {
     background-color: #fff;
     /*background-color: #df283e;*/
 }
+
+.input-ced{
+    margin: auto;
+    width: 60%;
+    border: 3px solid #e32842;
+    padding: 10px"
+}
+
+.modal-header{
+    border-bottom: 0px solid #dee2e6 !important
+}
+.text-center {
+    margin-bottom: 10px;
+}
+.modal-content{
+    background-color: #e32842;
+    border: 5px solid #fff;
+    border-radius: 0.5rem !important
+}
+.modal-title{
+    color: white;
+}
+.btn-primary {
+    color: #e32841;
+    background-color: #fff;
+    font-weight: 750;
+}
+
+.modal-footer {
+    border: none !important;
+    text-align: center;
+    justify-content: center;
+}
+.close{
+    float: right;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    color: white;
+        font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 0.5;
+    color: white;
+}
+.btn-ingresar:hover{
+    border: 0px solid !important;
+    background-color: white !important;
+    color: #e32842 !important;
+}
