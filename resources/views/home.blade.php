@@ -11,7 +11,9 @@
             </div>
         </div>
     </div>
+    @include('login')
     @include('footer')
+    @include('validaciones')
 </body>
 
 </html>
