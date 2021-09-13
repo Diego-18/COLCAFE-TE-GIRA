@@ -1,3 +1,18 @@
+@font-face {
+    font-family: "Letra1";
+    src: url("../fonts/helvetica-condensed-black-oblique.otf");
+}
+
+@font-face {
+    font-family: "Letra2";
+    src: url("../fonts/helvetica-condensed.ttf");
+}
+
+@font-face {
+    font-family: "Letra3";
+    src: url("../fonts/HelveticaNeueLTStd-Cn.otf");
+}
+
 body {
     background-color: #fff;
     /*background-color: #df283e;*/
@@ -19,7 +34,7 @@ body {
 .modal-content{
     background-color: #e32842;
     border: 5px solid #fff;
-    border-radius: 0.5rem !important
+    border-radius: 2rem !important
 }
 .modal-title{
     color: white;

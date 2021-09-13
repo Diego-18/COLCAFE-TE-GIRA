@@ -5,6 +5,7 @@
         }
     });
 
+    //$("#modal_error").modal("show");
 
     //LOGIN
     $("#validar_cc").click(function() {
@@ -28,7 +29,7 @@
                 data: {
                     cc: val
                 },
-                //cuando me manda una respuesta correcta 
+                //cuando me manda una respuesta correcta
                 success: function(response) {
 
                     if (response.result == true) {
@@ -38,7 +39,7 @@
                             // console.log(response.id)
                             window.location.href = "{{ route('registro_empaques') }}";
                         } else if (response.valid == 0) {
-                            // en caso de que no exita 
+                            // en caso de que no exita
                             preguntar_login(val);
                         }
                     } else {
@@ -272,14 +273,14 @@
 
         if (gramaje == 0 && gramaje2 == 0 && gramaje3 == 0 && gramaje4 == 0 && gramaje5 == 0) {
             Toast.fire({
-                    icon: 'error',
-                    title: '<span class="mu7 alert-error">Ingrese por lo menos el grameje</span>',
-                });
+                icon: 'error',
+                title: '<span class="mu7 alert-error">Ingrese por lo menos el grameje</span>',
+            });
         } else if (producto == 0 && producto2 == 0 && producto3 == 0 && producto4 == 0 && producto5 == 0) {
             Toast.fire({
-                    icon: 'error',
-                    title: '<span class="mu7 alert-error">Ingrese por lo menos un producto</span>',
-                });
+                icon: 'error',
+                title: '<span class="mu7 alert-error">Ingrese por lo menos un producto</span>',
+            });
         } else {
             if (gramaje != 0 && producto != 0) {
                 gramProducto.gramajes = gramaje;
@@ -311,18 +312,18 @@
                 gramProducto5.productos = producto5;
                 arregloObjeto.push(gramProducto5);
             }
-            var gramos=0;
+            var gramos = 0;
             for (let i = 0; i < arregloObjeto.length; i++) {
-                gramos+=parseInt( arregloObjeto[i].gramajes)
+                gramos += parseInt(arregloObjeto[i].gramajes)
             }
-          
+
 
             $.ajax({
                 url: "{{ route('registro_empa') }}",
                 dataType: "json",
                 type: "POST",
                 data: {
-                    productGram:arregloObjeto,
+                    productGram: arregloObjeto,
                     gramos: gramos,
 
                 },
@@ -330,21 +331,21 @@
                     console.log(response)
                     if (response.result == true) {
                         info_empaque = response.data_empaque;
-                            Swal.fire({
-                                icon: 'success',
-                                background: "#c8a767",
-                                iconColor: '#1c4d0c',
-                                showCancelButton: false,
-                                html: `<span class='mu5 alert-error'>Registrado correctamente</span>`,
-                                confirmButtonColor: '#432c1d',
-                                cancelButtonColor: '#a01822',
-                                confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
-                                allowOutsideClick: false,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    console.log(result)
-                                }
-                            });
+                        Swal.fire({
+                            icon: 'success',
+                            background: "#c8a767",
+                            iconColor: '#1c4d0c',
+                            showCancelButton: false,
+                            html: `<span class='mu5 alert-error'>Registrado correctamente</span>`,
+                            confirmButtonColor: '#432c1d',
+                            cancelButtonColor: '#a01822',
+                            confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                console.log(result)
+                            }
+                        });
                     } else {
                         Toast.fire({
                             icon: 'error',
@@ -368,17 +369,16 @@
     });
 
     const Toast = Swal.mixin({
-            showConfirmButton: true,
-            showCancelButton: false,
-            confirmButtonColor: '#a01822',
-            background: '#c8a767',
-            iconColor: '#a01822',
-            confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
-            allowOutsideClick: false,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-
+        showConfirmButton: true,
+        showCancelButton: false,
+        confirmButtonColor: '#a01822',
+        background: '#c8a767',
+        iconColor: '#a01822',
+        confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
+        allowOutsideClick: false,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
 </script>
