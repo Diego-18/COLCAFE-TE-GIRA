@@ -1,20 +1,7 @@
 <script>
-       $.ajaxSetup({
+    $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    const Toast = Swal.mixin({
-        showConfirmButton: true,
-        showCancelButton: false,
-        confirmButtonColor: '#a01822',
-        background: '#c8a767',
-        iconColor: '#a01822',
-        confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
-        allowOutsideClick: false,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
 
@@ -65,7 +52,7 @@
                 error: function(response) {
                     Toast.fire({
                         icon: 'error',
-                        title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
+                        title: '<span class="mu7 alert-error">Ocurrió un error</span>',
                     });
                     $("#validar_cc").prop('disabled', false);
                 }
@@ -108,7 +95,7 @@
             $("#alert_error_registro").modal("show");
         } else if (nombre.length < 3 || nombre.length > 60) {
             $("#alert_error_registro").modal("show");
-            console.log("por aqui pase")
+
         } else if (!apellido.match(
                 /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ]+$/
             )) {
@@ -262,32 +249,85 @@
         });
     }
 
+
+
+    var gramProducto = new Object();
+    var gramProducto2 = new Object();
+    var gramProducto3 = new Object();
+    var gramProducto4 = new Object();
+    var gramProducto5 = new Object();
+    var arregloObjeto = Array();
     $("#registro_emp").click(function() {
-            var gramaje = $("#gramaje").val();
-            var producto = $("#producto").val();
-            var gramos = $("#gramos").val();
 
-   
-        if (gramaje === "" || producto ==="" || gramos === "") {
-            $("#alert_error_registro").modal("show");
+        var gramaje = $("#gramaje").val();
+        var producto = $("#producto").val();
+        var gramaje2 = $("#gramaje2").val();
+        var producto2 = $("#producto2").val();
+        var gramaje3 = $("#gramaje3").val();
+        var producto3 = $("#producto3").val();
+        var gramaje4 = $("#gramaje4").val();
+        var producto4 = $("#producto4").val();
+        var gramaje5 = $("#gramaje5").val();
+        var producto5 = $("#producto5").val();
+
+        if (gramaje == 0 && gramaje2 == 0 && gramaje3 == 0 && gramaje4 == 0 && gramaje5 == 0) {
+            Toast.fire({
+                    icon: 'error',
+                    title: '<span class="mu7 alert-error">Ingrese por lo menos el grameje</span>',
+                });
+        } else if (producto == 0 && producto2 == 0 && producto3 == 0 && producto4 == 0 && producto5 == 0) {
+            Toast.fire({
+                    icon: 'error',
+                    title: '<span class="mu7 alert-error">Ingrese por lo menos un producto</span>',
+                });
         } else {
+            if (gramaje != 0 && producto != 0) {
+                gramProducto.gramajes = gramaje;
+                gramProducto.productos = producto;
+                arregloObjeto.push(gramProducto);
 
-            $(this).prop('disabled', true);
-            // var tp = $("#tipo_documento option:selected").text();
-            // var dp = $("#departamento option:selected").text();
-            // var cd = $("#ciudad option:selected").text();
+            }
+
+            if (gramaje2 != 0 && producto2 != 0) {
+                gramProducto2.gramajes = gramaje2;
+                gramProducto2.productos = producto2;
+                arregloObjeto.push(gramProducto2);
+            }
+
+            if (gramaje3 != 0 && producto3 != 0) {
+                gramProducto3.gramajes = gramaje3;
+                gramProducto3.productos = producto3;
+                arregloObjeto.push(gramProducto3);
+            }
+
+            if (gramaje4 != 0 && producto4 != 0) {
+                gramProducto4.gramajes = gramaje4;
+                gramProducto4.productos = producto4;
+                arregloObjeto.push(gramProducto4);
+            }
+
+            if (gramaje5 != 0 && producto5 != 0) {
+                gramProducto5.gramajes = gramaje5;
+                gramProducto5.productos = producto5;
+                arregloObjeto.push(gramProducto5);
+            }
+            var gramos=0;
+            for (let i = 0; i < arregloObjeto.length; i++) {
+                gramos+=parseInt( arregloObjeto[i].gramajes)
+            }
+          
 
             $.ajax({
                 url: "{{ route('registro_empa') }}",
                 dataType: "json",
                 type: "POST",
                 data: {
-                    gramaje: gramaje,
-                    producto: producto,
+                    productGram:arregloObjeto,
                     gramos: gramos,
 
                 },
                 success: function(response) {
+                    console.log(response)
                     if (response.result == true) {
                         info_empaque = response.data_empaque;
                             Swal.fire({
@@ -302,7 +342,7 @@
                                 allowOutsideClick: false,
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    console.log("hasta aqui llegue")
+                                    console.log(result)
                                 }
                             });
                     } else {
@@ -316,6 +356,7 @@
                 },
                 error: function(response) {
                     console.log("algo anda mal")
+                    console.log(response)
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
@@ -326,7 +367,18 @@
         }
     });
 
+    const Toast = Swal.mixin({
+            showConfirmButton: true,
+            showCancelButton: false,
+            confirmButtonColor: '#a01822',
+            background: '#c8a767',
+            iconColor: '#a01822',
+            confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
+            allowOutsideClick: false,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
 
-
-  
 </script>
