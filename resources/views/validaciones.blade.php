@@ -6,6 +6,7 @@
         }
     });
 
+    //$("#modal_error").modal("show");
 
     //LOGIN
     $("#validar_cc").click(function() {
@@ -29,7 +30,7 @@
                 data: {
                     cc: val
                 },
-                //cuando me manda una respuesta correcta 
+                //cuando me manda una respuesta correcta
                 success: function(response) {
 
                     if (response.result == true) {
@@ -39,7 +40,7 @@
                             // console.log(response.id)
                             window.location.href = "{{ route('registro_empaques') }}";
                         } else if (response.valid == 0) {
-                            // en caso de que no exita 
+                            // en caso de que no exita
                             preguntar_login(val);
                         }
                     } else {
@@ -249,8 +250,6 @@
             }
         });
     }
-
-
 
     var gramProducto = new Object();
     var gramProducto2 = new Object();

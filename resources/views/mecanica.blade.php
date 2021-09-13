@@ -24,7 +24,8 @@
     $.ajax({
         method: "GET",
         dataType: "json",
-        url: "https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json"
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: "http://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json"
     }).done(function(data) {
         info_dept = data;
         $.each(data, function(index, value) {
