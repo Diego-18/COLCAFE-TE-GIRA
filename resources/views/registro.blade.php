@@ -87,9 +87,7 @@
                                 <button type="submit" class="btn btn-primary" id="registro_pers" >
                                     Registrar Persona
                                 </button>
-        
                             </div>
-                          
                     </div>
                     
                 </div>

@@ -15,7 +15,6 @@ class RegistroEmpaquesController extends Controller
 
     public function registro_empa(Request $request){
 
-
         $gramos_registrados = $request->gramos;
         try{
             DB::beginTransaction();
@@ -23,10 +22,9 @@ class RegistroEmpaquesController extends Controller
             $id_producto = $request->producto;
             $gramaje = $request->gramaje;
         
-
-            
-            for ($i = 0; $i <2; $i++) {
-                $producgram = $request->productGram[$i];
+        $array = [];
+            foreach ($request->productGram as $i => $value) {
+                $producgram =  $value;
                 $id_producto = $producgram['productos'];
                 $gramaje = $producgram['gramajes'];
                 $id = RedencionesModel::insertGetId([
@@ -35,11 +33,12 @@ class RegistroEmpaquesController extends Controller
                     'gramaje'=> $gramaje,
                     'gramos_registrados'=>   $gramos_registrados 
                 ]);
+                $array[$i]= $id;
             }
-
-
-            $data = RedencionesModel::where('id',$id)->first();
-
+            $data =[];
+            foreach ($array as $i => $value) {
+                $data[$i] = RedencionesModel::where('id', $value)->first();
+            }
             DB::commit();
             return response()->json([
                 'result' => true,
@@ -47,7 +46,7 @@ class RegistroEmpaquesController extends Controller
                 'data_empaque' => $data
             ]);
 
-        }catch(Exception $ex){
+        }catch(\Exception $ex){
             DB::rollBack();
             return response()->json([
                 'result' => false,
@@ -55,5 +54,44 @@ class RegistroEmpaquesController extends Controller
             ]);
         }
         
+    }
+    public function ver_registro_empa(){
+
+     
+
+      $id_usuario =  session('session_usuario_id');
+        try {
+            DB::beginTransaction();
+            date_default_timezone_set('America/Bogota');
+            $date = date('d-m-Y - H:i A');
+            $productos = RedencionesModel::select(DB::raw("producto.id,producto.producto,redenciones.gramaje,redenciones.gramos_registrados"))
+                ->join("usuarios", "redenciones.id_usuario", "=", "usuarios.id")
+                ->join("producto", "redenciones.id_producto","=", "producto.id")
+                ->where("usuarios.id",  $id_usuario )
+                ->orderBy("producto.id", "ASC")
+               ->groupBy("producto.producto")
+               ->groupBy('producto.id','redenciones.gramos_registrados','redenciones.gramaje')
+
+                ->get();          
+            DB::commit();
+
+            return response()->json([
+                'result' => true,
+                'productos' => $productos,
+                'date' => $date 
+            ]);
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            date_default_timezone_set('America/Bogota');
+            $date = date('d-m-Y - H:i A');
+            $productos = [];
+            return response()->json([
+                'result' => false,
+                'valid' => "Ocurrió un error, intenta más tarde",
+                'ex' => $ex
+            ]);
+        }
+
+     
     }
 }

@@ -5,7 +5,7 @@ body {
 
 .input-ced{
     margin: auto;
-    width: 60%;
+    width: 95%;
     border: 3px solid #e32842;
     padding: 10px"
 }
@@ -46,8 +46,11 @@ body {
     line-height: 0.5;
     color: white;
 }
-.btn-ingresar:hover{
+
+.btn-ingresar{
     border: 0px solid !important;
     background-color: white !important;
     color: #e32842 !important;
+    text-transform: uppercase;
+    font-weight: 700;
 }

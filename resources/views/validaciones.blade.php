@@ -1,4 +1,5 @@
 <script>
+    
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -272,14 +273,14 @@
 
         if (gramaje == 0 && gramaje2 == 0 && gramaje3 == 0 && gramaje4 == 0 && gramaje5 == 0) {
             Toast.fire({
-                    icon: 'error',
-                    title: '<span class="mu7 alert-error">Ingrese por lo menos el grameje</span>',
-                });
+                icon: 'error',
+                title: '<span class="mu7 alert-error">Ingrese por lo menos el grameje</span>',
+            });
         } else if (producto == 0 && producto2 == 0 && producto3 == 0 && producto4 == 0 && producto5 == 0) {
             Toast.fire({
-                    icon: 'error',
-                    title: '<span class="mu7 alert-error">Ingrese por lo menos un producto</span>',
-                });
+                icon: 'error',
+                title: '<span class="mu7 alert-error">Ingrese por lo menos un producto</span>',
+            });
         } else {
             if (gramaje != 0 && producto != 0) {
                 gramProducto.gramajes = gramaje;
@@ -311,18 +312,18 @@
                 gramProducto5.productos = producto5;
                 arregloObjeto.push(gramProducto5);
             }
-            var gramos=0;
+            var gramos = 0;
             for (let i = 0; i < arregloObjeto.length; i++) {
-                gramos+=parseInt( arregloObjeto[i].gramajes)
+                gramos += parseInt(arregloObjeto[i].gramajes)
             }
-          
+
 
             $.ajax({
                 url: "{{ route('registro_empa') }}",
                 dataType: "json",
                 type: "POST",
                 data: {
-                    productGram:arregloObjeto,
+                    productGram: arregloObjeto,
                     gramos: gramos,
 
                 },
@@ -330,21 +331,23 @@
                     console.log(response)
                     if (response.result == true) {
                         info_empaque = response.data_empaque;
-                            Swal.fire({
-                                icon: 'success',
-                                background: "#c8a767",
-                                iconColor: '#1c4d0c',
-                                showCancelButton: false,
-                                html: `<span class='mu5 alert-error'>Registrado correctamente</span>`,
-                                confirmButtonColor: '#432c1d',
-                                cancelButtonColor: '#a01822',
-                                confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
-                                allowOutsideClick: false,
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    console.log(result)
-                                }
-                            });
+                        Swal.fire({
+                            icon: 'success',
+                            background: "#c8a767",
+                            iconColor: '#1c4d0c',
+                            showCancelButton: false,
+                            html: `<span class='mu5 alert-error'>Registrado correctamente</span>`,
+                            confirmButtonColor: '#432c1d',
+                            cancelButtonColor: '#a01822',
+                            confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                            }
+
+
+                        });
                     } else {
                         Toast.fire({
                             icon: 'error',
@@ -367,18 +370,82 @@
         }
     });
 
-    const Toast = Swal.mixin({
-            showConfirmButton: true,
-            showCancelButton: false,
-            confirmButtonColor: '#a01822',
-            background: '#c8a767',
-            iconColor: '#a01822',
-            confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
-            allowOutsideClick: false,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
+    $("#ver_registro_empa").click(function() {
+        $.ajax({
+            url: "{{ route('ver_registro_empa') }}",
+            dataType: "json",
+            type: "GET",
+            success: function(response) {
+
+                if (response.result == true) {
+                    reducir(response)
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
+                    });
+                    console.log(response)
+                    $("#validar_cc").prop('disabled', false);
+                }
+            },
+            error: function(response) {
+                console.log(response)
+                Toast.fire({
+                    icon: 'error',
+                    title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
+                });
+                $("#validar_cc").prop('disabled', false);
             }
         });
 
+    });
+
+
+    function reducir(data) {
+       console.log(data.producto);
+       data_info = data;
+
+    //    var unicos = data.filter(function(e){
+    //         return data[e] ? false : (data[e]=true)
+    //    })
+        
+    }
+
+
+    // function qd_sd($array, $campo, $campo2) {
+    //     $nuevo = array();
+    //     foreach($array as $parte) {
+    //         $clave[] = $parte[$campo];
+    //     }
+    //     $unico = array_unique($clave);
+    //     foreach($unico as $un) {
+    //         foreach($array as $original) {
+    //             if ($un == $original[$campo]) {
+    //                 $fecha2 = '04:30'; //aqui pueden omitir esto 
+    //                 $suma = $suma + minutosTranscurridos($original[$campo2],
+    //                     $fecha2); //  igual que la funcion minutosTranscurridos y el campo $fecha2
+    //             }
+    //         }
+    //         $ele['cedula'] = $un;
+    //         $ele['fecha'] = $suma;
+    //         array_push($nuevo, $ele);
+    //         $suma = 0;
+    //     }
+    //     return $nuevo;
+    // }
+
+
+    const Toast = Swal.mixin({
+        showConfirmButton: true,
+        showCancelButton: false,
+        confirmButtonColor: '#a01822',
+        background: '#c8a767',
+        iconColor: '#a01822',
+        confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
+        allowOutsideClick: false,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
 </script>

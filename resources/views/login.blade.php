@@ -12,7 +12,7 @@
         </div>
         <input type="text" class="form-control input-ced" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="cc_ingreso" title="Ingresa su cédula sin puntos"  style=" "  >
         <div class="modal-footer" style="border: none !important" >
-          <button type="button" class="btn btn-primary btn-ingresar" id="validar_cc">Ingresar</button> 
+          <button type="button" class="btn btn-ingresar" id="validar_cc">Ingresar</button> 
         </div>
       </div>
     </div>

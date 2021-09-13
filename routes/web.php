@@ -39,4 +39,5 @@ Route::post('/registro_newpost', [App\Http\Controllers\LoginController::class, '
 Route::group(['middleware' => 'session'], function () {
     Route::get('/registro_empaques', [App\Http\Controllers\RegistroEmpaquesController::class, 'index'])->name('registro_empaques');
     Route::post('/registro_post_emp', [App\Http\Controllers\RegistroEmpaquesController::class, 'registro_empa'])->name('registro_empa');
+    Route::get('/ver_registro_empa', [App\Http\Controllers\RegistroEmpaquesController::class, 'ver_registro_empa'])->name('ver_registro_empa');
 });

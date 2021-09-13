@@ -48,7 +48,7 @@ class LoginController extends Controller
                     'valid' => "Ocurrió un error, intenta más tarde"
                 ]);
             }
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             DB::rollBack();
             return response()->json([
                 'result' => false,
@@ -165,7 +165,7 @@ class LoginController extends Controller
                 'data' => "Registrado correctamente",
                 'data_user' => $data
             ]);
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             DB::rollBack();
             return response()->json([
                 'result' => false,
