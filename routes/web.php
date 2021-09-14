@@ -16,28 +16,16 @@ Route::get('/registro/{cc}', function ($cc) {
     return view('registro', compact("cedula"));
 })->where(['id' => '[0-9]+'])->name('registro');
 
-Route::get('/terminos', function () {
-    return view('terminos');
-})->name("terminos");
-
-Route::get('/ganadores', function () {
-    return view('ganadores');
-})->name("ganadores");
-
-Route::get('/puntos', function () {
-    return view('puntos');
-})->name("puntos");
-
 Route::post('/login', [App\Http\Controllers\LoginController::class, 'login'])->name('login');
 Route::post('/registro_post', [App\Http\Controllers\LoginController::class, 'validar_registro'])->name('registro_post');
 Route::post('/registro_newpost', [App\Http\Controllers\LoginController::class, 'registro'])->name('registro_newpost');
 
-Route::post('/registro_post', [App\Http\Controllers\LoginController::class, 'validar_registro'])->name('registro_post');
-Route::post('/registro_newpost', [App\Http\Controllers\LoginController::class, 'registro'])->name('registro_newpost');
 
 
+//https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json
 Route::group(['middleware' => 'session'], function () {
     Route::get('/registro_empaques', [App\Http\Controllers\RegistroEmpaquesController::class, 'index'])->name('registro_empaques');
     Route::post('/registro_post_emp', [App\Http\Controllers\RegistroEmpaquesController::class, 'registro_empa'])->name('registro_empa');
     Route::get('/ver_registro_empa', [App\Http\Controllers\RegistroEmpaquesController::class, 'ver_registro_empa'])->name('ver_registro_empa');
+    Route::post('/all_departments', [App\Http\Controllers\RegistroEmpaquesController::class, 'all_departments'])->name('all_departments');
 });

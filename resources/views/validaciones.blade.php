@@ -1,12 +1,10 @@
+@include('head')
 <script>
-    
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
-    //$("#modal_error").modal("show");
 
     //LOGIN
     $("#validar_cc").click(function() {
@@ -30,17 +28,12 @@
                 data: {
                     cc: val
                 },
-                //cuando me manda una respuesta correcta
                 success: function(response) {
-
                     if (response.result == true) {
-                        // cuando me trae el registro de la bd, si exite en ese caso mando la respuesta del ajax
-                        console.log(response.valid)
+                  
                         if (response.valid == 1) {
-                            // console.log(response.id)
                             window.location.href = "{{ route('registro_empaques') }}";
                         } else if (response.valid == 0) {
-                            // en caso de que no exita
                             preguntar_login(val);
                         }
                     } else {
@@ -69,7 +62,6 @@
 
     //REGISTRO de persona
     $("#registro_pers").click(function() {
-
         var tipo_documento = $("#tipo_documento").val();
         var documento = $("#documento").val();
         var nombre = $("#nombres").val().toUpperCase();
@@ -79,14 +71,11 @@
         var email = $("#email").val();
         var telefono = $("#celular").val();
         var tel_adic = $("#tel_adic").val();
-
         var terminos = $('#terminos').prop('checked');
-
         var privacidad = $('#privacidad').prop('checked');
 
         if (tipo_documento == 0 || tipo_documento > 3 || tipo_documento < 0) {
             $("#alert_error_registro").modal("show");
-
         } else if (documento.length > 10 || documento.length < 8 || !documento.match(/^[0-9]+$/)) {
             $("#alert_error_registro").modal("show");
         } else if (documento < 100) {
@@ -122,12 +111,11 @@
         } else if (privacidad == false) {
             $("#alert_error_registro").modal("show");
         } else {
+            var tp_nombre = $("#tipo_documento option:selected").text();
+            var dp_nombre = $("#departamento option:selected").text();
+            var ci_nombre = $("#ciudad option:selected").text();
 
-            $(this).prop('disabled', true);
-            // var tp = $("#tipo_documento option:selected").text();
-            // var dp = $("#departamento option:selected").text();
-            // var cd = $("#ciudad option:selected").text();
-
+    
             $.ajax({
                 url: "{{ route('registro_post') }}",
                 dataType: "json",
@@ -142,9 +130,13 @@
                     email: email,
                     telefono: telefono,
                     tel_adic: tel_adic,
+                    tp_nombre: tp_nombre,
+                    dp_nombre: dp_nombre,
+                    ci_nombre: ci_nombre,
 
                 },
                 success: function(response) {
+                
                     if (response.result == true) {
                         registrar_usuario(response.info);
                     } else {
@@ -153,16 +145,15 @@
                             title: '<span class="mu7 alert-error">' + response.data +
                                 '</span>',
                         });
-                        $("#registro_pers").prop('disabled', false);
                     }
                 },
                 error: function(response) {
-                    console.log("algo anda mal")
+                  
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
                     });
-                    $("#registro_pers").prop('disabled', false);
+                  
                 }
             });
         }
@@ -225,15 +216,22 @@
                                 allowOutsideClick: false,
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    person(info_user, count_cod_user)
-                                }
+                                    window.location.href = "{{ route('registro_empaques') }}";
+                                }   
                             });
-                        } else {
+                        } 
+                        else if(response.result == false){
+                            Toast.fire({
+                                icon: 'error',
+                                title: '<span class="mu7 alert-error">'+response.data+'</span>',
+                            });
+                        }          
+                        else {
                             Toast.fire({
                                 icon: 'error',
                                 title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
                             });
-                            $("#registro_pers").prop('disabled', false);
+                            
                         }
                     },
                     error: function(response) {
@@ -241,12 +239,10 @@
                             icon: 'error',
                             title: '<span class="mu7 alert-error">Ocurrió un error</span>',
                         });
-                        console.log(response)
-                        $("#registro_pers").prop('disabled', false);
                     }
                 });
             } else {
-                $("#registro_pers").prop('disabled', false);
+            
             }
         });
     }
@@ -327,7 +323,7 @@
 
                 },
                 success: function(response) {
-                    console.log(response)
+                
                     if (response.result == true) {
                         info_empaque = response.data_empaque;
                         Swal.fire({
@@ -340,6 +336,7 @@
                             cancelButtonColor: '#a01822',
                             confirmButtonText: '<span class="mu7 btn-confirm">Aceptar</span>',
                             allowOutsideClick: false,
+
                         }).then((result) => {
                             if (result.isConfirmed) {
 
@@ -357,8 +354,8 @@
                     }
                 },
                 error: function(response) {
-                    console.log("algo anda mal")
-                    console.log(response)
+                
+                
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
@@ -375,20 +372,31 @@
             dataType: "json",
             type: "GET",
             success: function(response) {
-
                 if (response.result == true) {
-                    reducir(response)
+                    data = interpretar(response);
+                    $("#producto_ver").empty();
+                    $("#gramaje_ver").empty();
+                    $("#cantidad_ver").empty();
+                    $.each(data, function(index, value) {
+                        $("#producto_ver").append('<input value="' + data[index].producto +
+                            '">');
+                        $("#gramaje_ver").append('<input value="' + data[index].gramaje +
+                            '">');
+                        $("#cantidad_ver").append('<input value="' + data[index]
+                            .gramos_registrados +
+                            '">');
+                    });
+                    data = []
+                    $("#modaldocument").modal("show");
                 } else {
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
-                    });
-                    console.log(response)
+                    });   
                     $("#validar_cc").prop('disabled', false);
                 }
             },
-            error: function(response) {
-                console.log(response)
+            error: function(response) {  
                 Toast.fire({
                     icon: 'error',
                     title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
@@ -400,39 +408,26 @@
     });
 
 
-    function reducir(data) {
-       console.log(data.producto);
-       data_info = data;
+    function interpretar(data) {
 
-    //    var unicos = data.filter(function(e){
-    //         return data[e] ? false : (data[e]=true)
-    //    })
-        
+        var array = data.productos;
+        var result = [];
+        array.reduce(function(res, value) {
+            if (!res[value.producto]) {
+                res[value.producto] = {
+                    producto: value.producto,
+                    gramaje: 0,
+                    gramos_registrados: 0
+                };
+                result.push(res[value.producto])
+            }
+            res[value.producto].gramaje += value.gramaje;
+            res[value.producto].gramos_registrados += value.gramos_registrados;
+            return res;
+        }, {});
+
+        return result
     }
-
-
-    // function qd_sd($array, $campo, $campo2) {
-    //     $nuevo = array();
-    //     foreach($array as $parte) {
-    //         $clave[] = $parte[$campo];
-    //     }
-    //     $unico = array_unique($clave);
-    //     foreach($unico as $un) {
-    //         foreach($array as $original) {
-    //             if ($un == $original[$campo]) {
-    //                 $fecha2 = '04:30'; //aqui pueden omitir esto 
-    //                 $suma = $suma + minutosTranscurridos($original[$campo2],
-    //                     $fecha2); //  igual que la funcion minutosTranscurridos y el campo $fecha2
-    //             }
-    //         }
-    //         $ele['cedula'] = $un;
-    //         $ele['fecha'] = $suma;
-    //         array_push($nuevo, $ele);
-    //         $suma = 0;
-    //     }
-    //     return $nuevo;
-    // }
-
 
     const Toast = Swal.mixin({
         showConfirmButton: true,
@@ -447,4 +442,6 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
+
+  
 </script>

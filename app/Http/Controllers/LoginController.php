@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\UserModel;
 
 use Illuminate\Support\Facades\DB;
-
+use SebastianBergmann\Environment\Console;
 
 class LoginController extends Controller
 {
@@ -65,15 +65,12 @@ class LoginController extends Controller
             $tipo_documento = $request->tipo_documento;
             $documento = $request->documento;
             $nombre = $request->nombre;
-            $apellido = $request->apellido;
-            $departamento = $request->departamento;
-            $ciudad = $request->ciudad;
+            $apellido = $request->apellido;          
             $email = $request->email;
             $telefono = $request->telefono;
             $tel_adic = $request->tel_adic;
-            // $val_dep = $request->val_dep;
-            // $val_tp = $request->val_tp;
-            // $val_cd = $request->val_cd;
+            $dp_nombre=$request->dp_nombre;
+            $ci_nombre=$request->ci_nombre;
 
             $val_cc = UserModel::where("documento", $documento)->count();
 
@@ -89,14 +86,11 @@ class LoginController extends Controller
                     "documento" => $documento,
                     "nombre" => $nombre,
                     "apellido" => $apellido,
-                    "departamento" => $departamento,
-                    "ciudad" => $ciudad,
+                    "departamento" => $dp_nombre,
+                    "ciudad" => $ci_nombre,
                     "email" => $email,
                     "telefono" => $telefono,
-                    "tel_adic" => $tel_adic,
-                    // "val_dep" => $val_dep,
-                    // "val_tp" => $val_tp,
-                    // "val_cd" => $val_cd,
+                    "tel_adic" => $tel_adic,      
                 ];
                 DB::commit();
                 return response()->json([
@@ -112,7 +106,6 @@ class LoginController extends Controller
                 ]);
             }
         } catch (\Exception $ex) {
-
             DB::rollBack();
             return response()->json([
                 'result' => false,
@@ -140,31 +133,42 @@ class LoginController extends Controller
 
             // if (session("session_asesora_id")) {
             //     $origen = session("session_asesora_id");
+
             // }
+            $validar_email = UserModel::where('email',$email)->first();
+            if($validar_email){
+                return response()->json([
+                    'result' => false,
+                    'data' => "Correo ya registrado ",
+                    
+                ]);
+            }else{
 
-            $id = UserModel::insertGetId([
-                'id_tipo_documento' => $tipo_documento,
-                'documento' => $documento,
-                'nombres' => $nombre,
-                'apellidos' => $apellido,
-                'id_depart' => $departamento,
-                'id_ciudad' => $ciudad,
-                'email' => $email,
-                'celular' => $telefono,
-                'tel_adic' => $tel_adic,
-                'estado' => 1,
-                'origen' => $origen
-            ]);
+                $id = UserModel::insertGetId([
+                    'id_tipo_documento' => $tipo_documento,
+                    'documento' => $documento,
+                    'nombres' => $nombre,
+                    'apellidos' => $apellido,
+                    'id_depart' => $departamento,
+                    'id_ciudad' => $ciudad,
+                    'email' => $email,
+                    'celular' => $telefono,
+                    'tel_adic' => $tel_adic,
+                    'estado' => 1,
+                    'origen' => $origen
+                ]);
+    
+                $data = UserModel::where("id", $id)->first();
+    
+                DB::commit();
+    
+                return response()->json([
+                    'result' => true,
+                    'data' => "Registrado correctamente",
+                    'data_user' => $data
+                ]);
+            }
 
-            $data = UserModel::where("id", $id)->first();
-
-            DB::commit();
-
-            return response()->json([
-                'result' => true,
-                'data' => "Registrado correctamente",
-                'data_user' => $data
-            ]);
         } catch (\Exception $ex) {
             DB::rollBack();
             return response()->json([

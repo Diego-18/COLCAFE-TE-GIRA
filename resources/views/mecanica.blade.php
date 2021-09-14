@@ -22,10 +22,9 @@
     $('#departamento option').remove();
     $("#departamento").append('<option value="100">SELECCIONA UNA OPCIÓN*</option>');
     $.ajax({
-        method: "GET",
+        method: "POST",
         dataType: "json",
-        headers: {'X-Requested-With': 'XMLHttpRequest'},
-        url: "http://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json"
+        url: "{{ route('all_departments') }}"
     }).done(function(data) {
         info_dept = data;
         $.each(data, function(index, value) {

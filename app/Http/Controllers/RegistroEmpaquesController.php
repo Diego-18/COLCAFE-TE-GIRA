@@ -5,12 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\RedencionesModel;
+use App\Models\ProductosModel;
 use App\Http\Controllers\Exception;
+use Illuminate\Support\Facades\Http;
+
 
 class RegistroEmpaquesController extends Controller
 {
     public function index(){
-            return view('registro-empaques');
+            try{
+                DB::beginTransaction();
+                date_default_timezone_set('America/Bogota');
+                $date = date('d-m-Y - H:i A');
+                $traer_productos = ProductosModel::all();
+                DB::commit();
+                return view("registro-empaques", compact("traer_productos", "date"));
+
+            }catch(\Exception $ex){
+                DB::rollBack();
+                date_default_timezone_set('America/Bogota');
+                $date = date('d-m-Y - H:i A');
+                $traer_productos = [];
+                return view("registro_empaques", compact("traer_productos", "date"));
+            }
     }
 
     public function registro_empa(Request $request){
@@ -22,7 +39,7 @@ class RegistroEmpaquesController extends Controller
             $id_producto = $request->producto;
             $gramaje = $request->gramaje;
         
-        $array = [];
+            $array = [];
             foreach ($request->productGram as $i => $value) {
                 $producgram =  $value;
                 $id_producto = $producgram['productos'];
@@ -56,9 +73,6 @@ class RegistroEmpaquesController extends Controller
         
     }
     public function ver_registro_empa(){
-
-     
-
       $id_usuario =  session('session_usuario_id');
         try {
             DB::beginTransaction();
@@ -93,5 +107,12 @@ class RegistroEmpaquesController extends Controller
         }
 
      
+    }
+
+    public function all_departments() {
+
+        $sms = Http::acceptJson()->get("https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json");
+        return $sms;
+    
     }
 }
