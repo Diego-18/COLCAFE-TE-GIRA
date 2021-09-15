@@ -1,7 +1,7 @@
 @include('head')
 @include('header')
 
-<body style="background-color: #e32841;">
+<body>
     <div class="container mt-5 col-12">
         <div class="row justify-content-center">
             <div class="col-sm-8 col-md-9 col-lg-6">
@@ -11,8 +11,8 @@
             </div>
         </div>
 
-        <div class="container" style="display: flex; align-items: center; justify-content: center;">
-            <div class="mt-5 col-sm-8 col-md-9 col-lg-6" style="margin-bottom: 10%;">
+        <div class="container cstm__container_second">
+            <div class="mt-5 col-sm-8 col-md-9 col-lg-6 cstm__container__slide">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -35,10 +35,6 @@
                       <span class="sr-only">Next</span>
                     </a>
                   </div>
-
-                {{-- <center>
-                    <img width="100%" ></img>
-                </center> --}}
             </div>
         </div>
     </div>
