@@ -1,19 +1,23 @@
-<nav class="navbar navbar-expand-lg"  >
+<nav class="navbar navbar-expand-lg cstm__navbar"  >
     <div class="cstm__navbar__logo">
-        <a class="navbar-brand" href="#" ><img src="{{ asset('img/144ppi/logo_head_1.png') }}" class="cstm__navbar__img"></a>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <a class="navbar-brand" href="#" ><img src="{{ asset('img/144ppi/logo_head_1.png') }}" class="cstm__navbar__img"></a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars cstm__menu__mobile"></i>
-        </button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars cstm__menu__mobile"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <div class="collapse navbar-collapse cstm__navbar__content" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav cstm__navbar__nav">
             <li class="nav-item active">
                 <a class="nav-link cstm__nav__link" href="#">INICIO <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item cstm__nav__item">
-                <a  href="#" class="nav-link cstm__nav__link text-uppercase font-weight-bold" data-toggle="modal" data-target="#modalcc">REGISTRO</a>
+            <li class="nav-item">
+                <a class="nav-link cstm__nav__link" href="#" data-toggle="modal" data-target="#modalcc">REGISTRO</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link cstm__nav__link" href="#" data-toggle="modal" data-target="#modalcc">REGISTRO DE EMPAQUES</a>

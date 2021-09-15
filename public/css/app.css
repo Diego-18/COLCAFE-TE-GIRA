@@ -69,42 +69,35 @@ body {
 
 /******* NAVBAR *******/
 
-.cstm__navbar__img{
-    width: 15rem;
-    padding-top: 1rem;
-}
+
 
 .cstm__navbar__logo{
     position: relative;
     z-index: 100;
-    width: 20rem;
 }
 
 .cstm__navbar__content{
     background:  -webkit-linear-gradient(left, #faa727 , transparent);
     font-family: Letra1;
     box-shadow: 0px ​2px 2px 1px rgb(0 0 0 / 20%);
-    width: 70rem;
     box-shadow: 0 0 15px #000;
-    width: 70%;
     border-top: 5px solid #fff;
     border-bottom: 5px solid #fff;
+    padding: 0% 10%;
 }
 
-.cstm__nav__link{
-    text-shadow: 2px 1px #000;
+.cstm__navbar__nav{
+    display: flex;
+    font-size: 24px;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: 2rem;
     text-align: center;
-    color: #fff;
 }
 
-.cstm__navbar__content{
-    background:  -webkit-linear-gradient(left, #faa727 , transparent);
-    font-family: Letra1;
-    box-shadow: 0px ​2px 2px 1px rgb(0 0 0 / 20%);
-    box-shadow: 0 0 15px #000;
-    width: 70%;
-    border-top: 5px solid #fff;
-    border-bottom: 5px solid #fff;
+.cstm__navbar__nav a{
+    text-shadow: 2px 1px #000;
+    color: #fff;
 }
 
 /*********** CONTENT ******************/
@@ -125,7 +118,7 @@ body {
 }
 
 .cstm__container__footer{
-    background-color: #faa727;
+    background-color: #FFCF30;
     color: #fff;
     width: 100%;
 }
@@ -159,6 +152,7 @@ body {
 
 .cstm__container__footer__2{
     display: flex;
+    flex-flow: row;
     align-items: center;
     justify-content: end;
     border-right: #e32842 2px solid;
@@ -173,17 +167,65 @@ body {
     padding-left: 5rem;
 }
 
-@media screen and (max-width: 749px) {
+/*********** WINDOWS MODAL *******************/
+
+.cstm__modal{
+    background: #e32842;
+    color: #fff;
+}
+
+/*********** FORM  **************************/
+.img__registro__empaques{
+   /* width: 50rem;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.cstm__second{
+
+    width: 100%;
+    height: 10vh;
+
+}
+
+.container__image{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: -prefix-linear-gradient(top, #e32842, #fff);
+}
+
+.cstm__img__add{
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0%;
+}
+
+
+/******* smartphone & tablet *****/
+@media screen and (max-width: 949px) {
     .cstm__menu__mobile{
         color: #fff;
+    }
+
+    .cstm__navbar__img {
+        width: 10rem;
+    }
+
+    .cstm__nav__link{
+        font-size: 1rem;
     }
 
     .cstm__container__footer__1, .cstm__container__footer__2,
     .cstm__container__footer__3{
         display: flex;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-        padding: 5%;
+        padding: 2%;
     }
 
     .cstm__subcont__footer__1, .cstm__subcont__footer__2{
@@ -192,15 +234,91 @@ body {
         justify-content: center;
         padding: 2%;
     }
+
+    .cstm__navbar{
+        width: 100%;
+    }
+
+    .cstm__footer{
+        margin-bottom: 0%;
+    }
+
+    .cstm__container__footer{
+        background-color: #FFCF30;
+        color: #fff;
+        width: 100%;
+    }
+
+    .cstm__text__footer{
+        color:#000;
+        font-size: 9px;
+        line-height: 1;
+    }
+
+    .cstm__img__footer__1,
+    .cstm__img__footer__2{
+        width: 10rem;
+    }
+
+    .cstm__img__footer__3{
+        width: 13rem;
+        padding: 0% 0%;
+        margin: 0px 10px;
+    }
+
+    .cstm__container__footer__1{
+        line-height: initial;
+        text-align: justify;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .cstm__container__footer__2{
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: end;
+        border-right: #e32842 2px solid;
+    }
+
+    .cstm__container__footer__3{
+        padding-right: 0%;
+        margin-right: 0%;
+    }
+
+    .cstm__subcont__footer__2{
+        padding-left: 2rem;
+    }
+
+    .cstm__navbar__content {
+        padding: 0% 10%;
+        margin: 0% 3% 0% 0%;
+    }
+
+    .cstm__container_second {
+        margin: 10rem 0rem;
+    }
 }
 
-@media screen and (min-width: 950px) {
+
+
+/******* desktop *****/
+@media screen and (min-width: 950px ) {
+    .cstm__nav__link{
+        font-size: 26px;
+    }
+
+    .cstm__navbar__img{
+        width: 22rem;
+        padding-top: 1rem;
+    }
+
     .cstm__subcont__footer__2 {
-        padding-left: 4rem;
+        padding-left: 1%;
     }
 
     .cstm__navbar__logo {
-        padding-left: 6rem;
+        padding-left: 2rem;
     }
 
     .cstm__navbar__content{
@@ -209,5 +327,9 @@ body {
         margin: 10rem 15rem;
         width: 70%;
         box-shadow: 0 0 15px #000;
+    }
+
+    .cstm__navbar__logo{
+        width: 20rem;
     }
 }
