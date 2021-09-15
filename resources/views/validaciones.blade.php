@@ -8,7 +8,7 @@
 
     //LOGIN
     $("#validar_cc").click(function() {
-        var val = $("#cc_ingreso").val();
+        let val = $("#cc_ingreso").val();
         if (val.length < 8 || val.length > 10 || !val.match(/^[0-9]+$/)) {
             Toast.fire({
                 icon: 'error',
@@ -30,7 +30,6 @@
                 },
                 success: function(response) {
                     if (response.result == true) {
-                  
                         if (response.valid == 1) {
                             window.location.href = "{{ route('registro_empaques') }}";
                         } else if (response.valid == 0) {
@@ -62,17 +61,17 @@
 
     //REGISTRO de persona
     $("#registro_pers").click(function() {
-        var tipo_documento = $("#tipo_documento").val();
-        var documento = $("#documento").val();
-        var nombre = $("#nombres").val().toUpperCase();
-        var apellido = $("#apellidos").val().toUpperCase();
-        var departamento = $("#departamento").val();
-        var ciudad = $("#ciudad").val();
-        var email = $("#email").val();
-        var telefono = $("#celular").val();
-        var tel_adic = $("#tel_adic").val();
-        var terminos = $('#terminos').prop('checked');
-        var privacidad = $('#privacidad').prop('checked');
+        let tipo_documento = $("#tipo_documento").val();
+        let documento = $("#documento").val();
+        let nombre = $("#nombres").val().toUpperCase();
+        let apellido = $("#apellidos").val().toUpperCase();
+        let departamento = $("#departamento").val();
+        let ciudad = $("#ciudad").val();
+        let email = $("#email").val();
+        let telefono = $("#celular").val();
+        let tel_adic = $("#tel_adic").val();
+        let terminos = $('#terminos').prop('checked');
+        let privacidad = $('#privacidad').prop('checked');
 
         if (tipo_documento == 0 || tipo_documento > 3 || tipo_documento < 0) {
             $("#alert_error_registro").modal("show");

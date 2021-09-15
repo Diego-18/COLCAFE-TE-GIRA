@@ -12,7 +12,6 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        
         try {
             DB::beginTransaction();
             $cc = $request->cc;
@@ -26,13 +25,13 @@ class LoginController extends Controller
             
                 //abro la session del usuario
                 session(['session_usuario_id' => $user->id]); 
+
                 DB::commit();
                 return response()->json([
                     'result' => true,
                     'valid' => 1,
                     'data' => $user,
                     'count_cod_user' => $count_cod_user
-
                 ]);
                 
             } else if ($valid == 0) {

@@ -85,7 +85,7 @@
             </div>
         </div>
     </div>
-    
+
     @include('mecanica')
     @include('login')
     @include('footer')

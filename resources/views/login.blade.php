@@ -5,7 +5,6 @@
 
         <div class="modal-content" style="background-color: #e32842">
             <div class="modal-header text-center">
-
                 <button type="button " class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
