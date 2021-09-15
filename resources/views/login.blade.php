@@ -23,7 +23,7 @@
 
 <div class="modal fade" id="alert_error_registro" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered cstm__modal">
         <div class="modal-content modal-c fondo-error-registro">
             <div class="modal-header mdal">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -40,7 +40,7 @@
 <!-- ERROR -->
 <div class="modal fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered cstm__modal" role="document">
         <div class="modal-content" style="background-color: #e32842; border: 0">
             <div class="modal-header text-center"></div>
             <center>
@@ -65,7 +65,6 @@
             <div class="shadow-lg p-3 mb-5 bg-white rounded ">
 
                 <center>
-
                     <img src="{{ asset('img/144ppi/alert_error.png') }}" style="width: 40%">
                     <div class="row justify-content-between text-left">
 

@@ -114,7 +114,7 @@
             var dp_nombre = $("#departamento option:selected").text();
             var ci_nombre = $("#ciudad option:selected").text();
 
-    
+
             $.ajax({
                 url: "{{ route('registro_post') }}",
                 dataType: "json",
@@ -135,7 +135,7 @@
 
                 },
                 success: function(response) {
-                
+
                     if (response.result == true) {
                         registrar_usuario(response.info);
                     } else {
@@ -147,12 +147,12 @@
                     }
                 },
                 error: function(response) {
-                  
+
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
                     });
-                  
+
                 }
             });
         }
@@ -169,7 +169,7 @@
         }
         Swal.fire({
             icon: 'success',
-            background: "#c8a767",
+            background: "#fff",
             iconColor: '#1c4d0c',
             html: `<span class='mu7 alert-error2'><strong>Verifica tus datos</strong></span><br><br>
                 <div style="text-align: left;">
@@ -205,7 +205,7 @@
                             info_user = response.data_user;
                             Swal.fire({
                                 icon: 'success',
-                                background: "#c8a767",
+                                background: "#e32842",
                                 iconColor: '#1c4d0c',
                                 showCancelButton: false,
                                 html: `<span class='mu5 alert-error'>Registrado correctamente</span>`,
@@ -216,21 +216,21 @@
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     window.location.href = "{{ route('registro_empaques') }}";
-                                }   
+                                }
                             });
-                        } 
+                        }
                         else if(response.result == false){
                             Toast.fire({
                                 icon: 'error',
                                 title: '<span class="mu7 alert-error">'+response.data+'</span>',
                             });
-                        }          
+                        }
                         else {
                             Toast.fire({
                                 icon: 'error',
                                 title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
                             });
-                            
+
                         }
                     },
                     error: function(response) {
@@ -241,7 +241,7 @@
                     }
                 });
             } else {
-            
+
             }
         });
     }
@@ -322,7 +322,7 @@
 
                 },
                 success: function(response) {
-                
+
                     if (response.result == true) {
                         info_empaque = response.data_empaque;
                         Swal.fire({
@@ -353,8 +353,8 @@
                     }
                 },
                 error: function(response) {
-                
-                
+
+
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
@@ -391,11 +391,11 @@
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
-                    });   
+                    });
                     $("#validar_cc").prop('disabled', false);
                 }
             },
-            error: function(response) {  
+            error: function(response) {
                 Toast.fire({
                     icon: 'error',
                     title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
@@ -442,5 +442,5 @@
         }
     });
 
-  
+
 </script>
