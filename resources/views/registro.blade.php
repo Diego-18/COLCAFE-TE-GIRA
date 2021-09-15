@@ -13,12 +13,15 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="col-md-4 col-form-label text-md-right">Tipo de documento</label>
+
+
                                 <select id="tipo_documento" class="form-control" value="0">
                                     <option value="0">Elige*</option>
-                                    <option value="1">Cédula ciudadanía</option>
-                                    <option value="2">Cédula venezolana</option>
-                                    <option value="3">Cédula extranjería</option>
+                                   @foreach ($tipo_documento as $item)
+                                       <option value="{{ $item->id }}"> {{ $item->nombre_documento }}</option>
+                                   @endforeach
                                 </select>
+
                             </div>
                         </div>
 
@@ -90,4 +93,5 @@
     @include('login')
     @include('footer')
     @include('validaciones')
+
 </main>

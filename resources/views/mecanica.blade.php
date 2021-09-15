@@ -26,15 +26,16 @@
         dataType: "json",
         url: "{{ route('all_departments') }}"
     }).done(function(data) {
+       
         info_dept = data;
         $.each(data, function(index, value) {
             $("#departamento").append('<option value="' + data[index].id + '">' + data[index]
                 .departamento + '</option>');
         });
-    }).fail(function() {
+    }).fail(function(error) {
         Toast2.fire({
             icon: 'error',
-            title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
+            title: '<span class="mu7 alert-error">Ocurrió un errorrr, intenta más tarde,</span>',
         });
     }).always(function() {});
 

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\UserModel;
 
 use Illuminate\Support\Facades\DB;
-use SebastianBergmann\Environment\Console;
+
 
 class LoginController extends Controller
 {
@@ -16,35 +17,44 @@ class LoginController extends Controller
             DB::beginTransaction();
             $cc = $request->cc;
             $valid = UserModel::where("documento", $cc)->count();
-           
             //si existe el usuario 
             if ($valid == 1) {
+                
                 $user = UserModel::where("documento", $cc)->first();
                 $id = $user->id;
                 $count_cod_user = UserModel::where("documento", $id)->where("estado", 1)->count();
-            
-                //abro la session del usuario
                 session(['session_usuario_id' => $user->id]); 
-
+                session(['session_usuario_nombre' => $user->nombres]); 
+                //abro la session del usuario
                 DB::commit();
                 return response()->json([
                     'result' => true,
                     'valid' => 1,
                     'data' => $user,
-                    'count_cod_user' => $count_cod_user
-                ]);
-                
+                    'count_cod_user' => $count_cod_user,
+                    
+                ]);   
             } else if ($valid == 0) {
-                DB::commit();
-                return response()->json([
-                    'result' => true,
-                    'valid' => 0
-                ]);
+                try{
+                 
+                    DB::commit();
+                    return response()->json([
+                        'result' => true,
+                        'valid' => 0,
+                       
+                    ]);
+                }catch(\Exception $ex){
+                    DB::rollBack();
+                    return response()->json([
+                        'result' => false,
+                        'valid' => "Ocurrió un error, intenta más tarde".$ex,
+                    ]);
+                }
             } else {
                 DB::rollBack();
                 return response()->json([
                     'result' => false,
-                    'valid' => "Ocurrió un error, intenta más tarde"
+                    'valid' => "Ocurrió un error, intenta más tardeee"
                 ]);
             }
         } catch (\Exception $ex) {
@@ -65,11 +75,13 @@ class LoginController extends Controller
             $documento = $request->documento;
             $nombre = $request->nombre;
             $apellido = $request->apellido;          
-            $email = $request->email;
+            $email =  $request->email;
             $telefono = $request->telefono;
             $tel_adic = $request->tel_adic;
-            $dp_nombre=$request->dp_nombre;
-            $ci_nombre=$request->ci_nombre;
+            $departamento = $request->departamento;
+            $ciudad = $request->ciudad;
+            $dp_nombre= $request->dp_nombre;
+            $ci_nombre= $request->ci_nombre;
 
             $val_cc = UserModel::where("documento", $documento)->count();
 
@@ -85,11 +97,13 @@ class LoginController extends Controller
                     "documento" => $documento,
                     "nombre" => $nombre,
                     "apellido" => $apellido,
-                    "departamento" => $dp_nombre,
-                    "ciudad" => $ci_nombre,
                     "email" => $email,
+                    "departamento"=>$departamento,
+                    "ciudad"=>$ciudad,
                     "telefono" => $telefono,
-                    "tel_adic" => $tel_adic,      
+                    "tel_adic" => $tel_adic,
+                    "dp_nombre" => $dp_nombre, 
+                    "ci_nombre" => $ci_nombre
                 ];
                 DB::commit();
                 return response()->json([
@@ -130,10 +144,7 @@ class LoginController extends Controller
             $origen = 0;
 
 
-            // if (session("session_asesora_id")) {
-            //     $origen = session("session_asesora_id");
-
-            // }
+         
             $validar_email = UserModel::where('email',$email)->first();
             if($validar_email){
                 return response()->json([
@@ -142,7 +153,6 @@ class LoginController extends Controller
                     
                 ]);
             }else{
-
                 $id = UserModel::insertGetId([
                     'id_tipo_documento' => $tipo_documento,
                     'documento' => $documento,
@@ -160,11 +170,16 @@ class LoginController extends Controller
                 $data = UserModel::where("id", $id)->first();
     
                 DB::commit();
+                   session(['session_usuario_id' => $id]);     
     
+
+                   session(['session_usuario_nombre' => $data["nombres"]]);     
+              
                 return response()->json([
                     'result' => true,
                     'data' => "Registrado correctamente",
-                    'data_user' => $data
+                    'data_user' => $data,
+                    
                 ]);
             }
 
@@ -176,5 +191,11 @@ class LoginController extends Controller
             ]);
         }
     }
+    public function signout(){
+        session()->forget('session_usuario_id');
+        session()->forget('session_usuario_nombre');
+        return Redirect('/');
+    }
+    
 
 }

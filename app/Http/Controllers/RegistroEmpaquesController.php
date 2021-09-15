@@ -78,14 +78,14 @@ class RegistroEmpaquesController extends Controller
             DB::beginTransaction();
             date_default_timezone_set('America/Bogota');
             $date = date('d-m-Y - H:i A');
-            $productos = RedencionesModel::select(DB::raw("producto.id,producto.producto,redenciones.gramaje,redenciones.gramos_registrados"))
+            $productos = RedencionesModel::select(DB::raw("producto.id,producto.producto,redenciones.id_gramaje,redenciones.gramos_registrados"))
                 ->join("usuarios", "redenciones.id_usuario", "=", "usuarios.id")
                 ->join("producto", "redenciones.id_producto","=", "producto.id")
+                ->join("gramaje", "redenciones.id_gramaje","=", "gramaje.id")
                 ->where("usuarios.id",  $id_usuario )
                 ->orderBy("producto.id", "ASC")
                ->groupBy("producto.producto")
-               ->groupBy('producto.id','redenciones.gramos_registrados','redenciones.gramaje')
-
+               ->groupBy('producto.id','redenciones.gramos_registrados','redenciones.id_gramaje')
                 ->get();          
             DB::commit();
 
@@ -109,10 +109,14 @@ class RegistroEmpaquesController extends Controller
      
     }
 
-    public function all_departments() {
-
-        $sms = Http::acceptJson()->get("https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json");
-        return $sms;
-    
+    public function all_departments(Request $request) {
+        try{
+            $sms = Http::acceptJson()->get("https://raw.githubusercontent.com/marcovega/colombia-json/master/colombia.min.json");
+            return $sms;
+        }catch (\Exception $ex){
+            return $ex;
+        }
     }
+
+    
 }

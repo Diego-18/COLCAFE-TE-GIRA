@@ -34,9 +34,22 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" style="color: #fff; text-shadow: 2px 1px #000; text-align: center;">GANADORES</a>
             </li>
+            @if(!session()->has('session_usuario_id'))
             <li class="nav-item">
-                <a class="nav-link" href="#" style="color: #fff; text-shadow: 2px 1px #000; text-align: center;" data-toggle="modal" data-target="#modalcc">PUNTOS</a>
+                <a class="nav-link" href="#" style="color: #fff; text-shadow: 2px 1px #000; text-align: center;" data-toggle="modal" data-target="#modalcc">REGISTRO</a>
             </li>
+            @endif 
+            @if(session()->has('session_usuario_id'))
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #fff; text-shadow: 2px 1px #000; text-align: center;" >{{Session::get('session_usuario_nombre')}}</a>
+            </li>
+            @endif 
+            @if(session()->has('session_usuario_id'))
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="color: #fff; text-shadow: 2px 1px #000; text-align: center;" data-toggle="modal" > <a href="logout">Log Out</a></a>
+            </li>   
+            @endif 
+          
         </ul>
     </div>
 </nav>

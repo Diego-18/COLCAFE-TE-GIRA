@@ -26,6 +26,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content modal-c fondo-error-registro">
             <div class="modal-header mdal">
+                <h1>Verifica que los datos esten correctamente</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" style="color:white">&times;</span>
                 </button>

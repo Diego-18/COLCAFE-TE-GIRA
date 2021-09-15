@@ -25,7 +25,6 @@
                         <select id="producto" class="form-control" value="0">
                             <option value="">*Elegir</option>
                             @foreach($traer_productos as $key => $value)
-         
                           <option value="{{$value->id}}">{{$value->producto}}</option>
                             @endforeach
                         </select>
@@ -36,7 +35,6 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text mu7 info-cc-ingreso">Gramaje</div>
                         </div>
-                       
                         <select id="gramaje2" class="form-control" value="0" data-value1="1">
                             <option value="0">Elige*</option>
                             <option value="10">10</option>
@@ -132,14 +130,7 @@
                             Ver empaques
                         </button>
                         
-                        {{-- @foreach( $productos as $key => $value)
-                        <tr>
-                            <td class="mu5 tbody-par-nam">{{$key+1}}. {{$value->producto}}</td>
-                        </tr>
-                        @endforeach --}}
-                        <!-- Modal -->
-                 
-                       
+                      
                     </div>
                 </div>
             </div>

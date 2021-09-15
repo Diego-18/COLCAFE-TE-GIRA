@@ -29,16 +29,18 @@
                     cc: val
                 },
                 success: function(response) {
+                   
                     if (response.result == true) {
                         if (response.valid == 1) {
                             window.location.href = "{{ route('registro_empaques') }}";
                         } else if (response.valid == 0) {
+                            console.log(response.tipoDeDocumentos);
                             preguntar_login(val);
                         }
                     } else {
                         Toast.fire({
                             icon: 'error',
-                            title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
+                            title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde aqui</span>',
                         });
                         $("#validar_cc").prop('disabled', false);
                     }
@@ -61,12 +63,14 @@
 
     //REGISTRO de persona
     $("#registro_pers").click(function() {
+
         let tipo_documento = $("#tipo_documento").val();
         let documento = $("#documento").val();
         let nombre = $("#nombres").val().toUpperCase();
         let apellido = $("#apellidos").val().toUpperCase();
         let departamento = $("#departamento").val();
         let ciudad = $("#ciudad").val();
+
         let email = $("#email").val();
         let telefono = $("#celular").val();
         let tel_adic = $("#tel_adic").val();
@@ -85,14 +89,12 @@
             $("#alert_error_registro").modal("show");
         } else if (nombre.length < 3 || nombre.length > 60) {
             $("#alert_error_registro").modal("show");
-
         } else if (!apellido.match(
                 /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ]+$/
             )) {
             $("#alert_error_registro").modal("show");
         } else if (apellido.length < 5 || apellido.length > 60) {
             $("#alert_error_registro").modal("show");
-
         } else if (departamento == 100) {
             $("#alert_error_registro").modal("show");
         } else if (ciudad == 100) {
@@ -114,7 +116,6 @@
             var dp_nombre = $("#departamento option:selected").text();
             var ci_nombre = $("#ciudad option:selected").text();
 
-    
             $.ajax({
                 url: "{{ route('registro_post') }}",
                 dataType: "json",
@@ -132,27 +133,27 @@
                     tp_nombre: tp_nombre,
                     dp_nombre: dp_nombre,
                     ci_nombre: ci_nombre,
-
                 },
                 success: function(response) {
-                
                     if (response.result == true) {
                         registrar_usuario(response.info);
                     } else {
+                        ;
                         Toast.fire({
                             icon: 'error',
-                            title: '<span class="mu7 alert-error">' + response.data +
+                            title: '<span class="mu7 alert-error este es el error">' +
+                                response.data +
                                 '</span>',
                         });
                     }
                 },
                 error: function(response) {
-                  
+
                     Toast.fire({
                         icon: 'error',
-                        title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
+                        title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tardeeeee</span>',
                     });
-                  
+
                 }
             });
         }
@@ -172,16 +173,18 @@
             background: "#c8a767",
             iconColor: '#1c4d0c',
             html: `<span class='mu7 alert-error2'><strong>Verifica tus datos</strong></span><br><br>
-                <div style="text-align: left;">
+                <div style="text-align: left;">       
                 <span class='mu5 alert-error2'>Tipo de documento: <strong>` + data.tipo_documento + `</strong></span><br>
                 <span class='mu5 alert-error2'>Documento: <strong>` + data.documento + `</strong></span><br>
                 <span class='mu5 alert-error2'>Nombres: <strong>` + data.nombre + `</strong></span><br>
                 <span class='mu5 alert-error2'>Apellidos: <strong>` + data.apellido + `</strong></span><br>
-                <span class='mu5 alert-error2'>Departamento: <strong>` + data.departamento + `</strong></span><br>
-                <span class='mu5 alert-error2'>Ciudad: <strong>` + data.ciudad + `</strong></span><br>
+                <span class='mu5 alert-error2'>Departamento: <strong>` + data.dp_nombre + `</strong></span><br>
+                <span class='mu5 alert-error2'>Ciudad: <strong>` + data.ci_nombre + `</strong></span><br>
                 <span class='mu5 alert-error2'>Correo electrónico: <strong>` + data.email + `</strong></span><br>
                 <span class='mu5 alert-error2'>Celular: <strong>` + data.telefono + `</strong></span><br>
                 <span class='mu5 alert-error2'>Teléfono adicional: <strong>` + data.tel_adic + `</strong></span>
+             
+
                 </div>`,
             showCancelButton: true,
             confirmButtonColor: '#432c1d',
@@ -201,7 +204,9 @@
                         data: data,
                     },
                     success: function(response) {
+
                         if (response.result == true) {
+                            ;
                             info_user = response.data_user;
                             Swal.fire({
                                 icon: 'success',
@@ -215,22 +220,23 @@
                                 allowOutsideClick: false,
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = "{{ route('registro_empaques') }}";
-                                }   
+                                    window.location.href =
+                                        "{{ route('registro_empaques') }}";
+                                }
                             });
-                        } 
-                        else if(response.result == false){
+                        } else if (response.result == false) {
+                            console.log(response)
                             Toast.fire({
                                 icon: 'error',
-                                title: '<span class="mu7 alert-error">'+response.data+'</span>',
+                                title: '<span class="mu7 alert-error">' + response.data +
+                                    '</span>',
                             });
-                        }          
-                        else {
+                        } else {
                             Toast.fire({
                                 icon: 'error',
                                 title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
                             });
-                            
+
                         }
                     },
                     error: function(response) {
@@ -241,7 +247,7 @@
                     }
                 });
             } else {
-            
+
             }
         });
     }
@@ -282,7 +288,6 @@
                 arregloObjeto.push(gramProducto);
 
             }
-
             if (gramaje2 != 0 && producto2 != 0) {
                 gramProducto2.gramajes = gramaje2;
                 gramProducto2.productos = producto2;
@@ -311,7 +316,7 @@
                 gramos += parseInt(arregloObjeto[i].gramajes)
             }
 
-
+          
             $.ajax({
                 url: "{{ route('registro_empa') }}",
                 dataType: "json",
@@ -319,10 +324,8 @@
                 data: {
                     productGram: arregloObjeto,
                     gramos: gramos,
-
                 },
                 success: function(response) {
-                
                     if (response.result == true) {
                         info_empaque = response.data_empaque;
                         Swal.fire({
@@ -338,23 +341,19 @@
 
                         }).then((result) => {
                             if (result.isConfirmed) {
-
                             }
-
-
                         });
                     } else {
+                    
                         Toast.fire({
                             icon: 'error',
-                            title: '<span class="mu7 alert-error">' + response.data +
+                            title: '<span class="mu7 alert-error">' + response.valid +
                                 '</span>',
                         });
                         $("#registro_emp").prop('disabled', false);
                     }
                 },
                 error: function(response) {
-                
-                
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
@@ -371,6 +370,7 @@
             dataType: "json",
             type: "GET",
             success: function(response) {
+                console.log(response)
                 if (response.result == true) {
                     data = interpretar(response);
                     $("#producto_ver").empty();
@@ -386,16 +386,17 @@
                             '">');
                     });
                     data = []
+                    console.log(response)
                     $("#modaldocument").modal("show");
                 } else {
                     Toast.fire({
                         icon: 'error',
                         title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
-                    });   
+                    });
                     $("#validar_cc").prop('disabled', false);
                 }
             },
-            error: function(response) {  
+            error: function(response) {
                 Toast.fire({
                     icon: 'error',
                     title: '<span class="mu7 alert-error">Ocurrió un error, intenta más tarde</span>',
@@ -441,6 +442,4 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     });
-
-  
 </script>
